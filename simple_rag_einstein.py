@@ -1,32 +1,24 @@
 #!/usr/bin/env python3
 """
 Simple RAG Model for Albert Einstein Biography
-A lightweight version that works with basic dependencies
 """
 
-import os
 from typing import List, Dict, Any
 from datetime import datetime
-import warnings
-warnings.filterwarnings('ignore')
-
 # PDF processing
 from PyPDF2 import PdfReader
-
 # Import configuration
 from config import *
 
-class SimpleRAGSystem:
-    """Simple RAG system for question answering"""
+class SimpleRAGSystem: #Simple RAG system for question answering
     
     def __init__(self):
         self.chunks = []
-        #self.vector_db = None
+        
         self.mistral_api_key = MISTRAL_API_KEY
         self._initialize_llm()
     
-    def _initialize_llm(self):
-        """Initialize the language model"""
+    def _initialize_llm(self):# Initialize the language model
         try:
             # Import Mistral client
             from mistralai.client import MistralClient
@@ -45,8 +37,8 @@ class SimpleRAGSystem:
             print(" You can still use the retrieval system without LLM")
             self.mistral_client = None
         
-    def extract_pdf_text(self, pdf_path: str) -> str:
-        """Extract text from PDF file"""
+    def extract_pdf_text(self, pdf_path: str) -> str: #Extract text from PDF file
+   
         try:
             reader = PdfReader(pdf_path)
             text = ""
@@ -64,8 +56,8 @@ class SimpleRAGSystem:
             print(f" Error extracting PDF: {e}")
             return ""
     
-    def chunk_text(self, text: str, chunk_size: int = 1000, overlap: int = 200) -> List[str]:
-        """Split text into chunks"""
+    def chunk_text(self, text: str, chunk_size: int = 1000, overlap: int = 200) -> List[str]: #Split text into chunks
+
         chunks = []
         start = 0
         
@@ -174,7 +166,7 @@ class SimpleRAGSystem:
             }
         
         # Combine context documents
-        context_text = "\n\n".join(relevant_chunks)
+        #context_text = "\n\n".join(relevant_chunks)
         
         # Try to use LLM if available
         if hasattr(self, 'mistral_client') and self.mistral_client:
@@ -240,20 +232,20 @@ class SimpleRAGSystem:
         
         return False
     
-    def batch_questions(self, questions: List[str]) -> List[Dict[str, Any]]:
-        """Answer multiple questions in batch"""
-        results = []
+    # def batch_questions(self, questions: List[str]) -> List[Dict[str, Any]]:
+    #     """Answer multiple questions in batch"""
+    #     results = []
         
-        for i, question in enumerate(questions, 1):
-            print(f"\n Processing question {i}/{len(questions)}")
-            result = self.answer_question(question)
-            results.append(result)
+    #     for i, question in enumerate(questions, 1):
+    #         print(f"\n Processing question {i}/{len(questions)}")
+    #         result = self.answer_question(question)
+    #         results.append(result)
         
-        return results
+    #     return results
 
 def interactive_qa(rag_system: SimpleRAGSystem):
     """Interactive question-answering interface"""
-    print("\n🎯 Interactive Einstein RAG System")
+    print("\n Interactive Einstein RAG System")
     print("=" * 50)
     print("Ask questions about Albert Einstein!")
     print("Type 'quit' to exit\n")
